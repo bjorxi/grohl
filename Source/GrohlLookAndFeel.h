@@ -67,15 +67,12 @@ public:
   
   juce::Label* createSliderTextBox (juce::Slider& slider)
   {
-      auto* l = LookAndFeel_V2::createSliderTextBox (slider);
+    auto* l = LookAndFeel_V2::createSliderTextBox (slider);
+    juce::Font font16{20.0f};
+    l->setFont(font16);
 
-      if (getCurrentColourScheme() == juce::LookAndFeel_V4::getGreyColourScheme() && (slider.getSliderStyle() == juce::Slider::LinearBar
-                                                                                 || slider.getSliderStyle() == juce::Slider::LinearBarVertical))
-      {
-          l->setColour (juce::Label::textColourId, juce::Colours::black.withAlpha (0.7f));
-      }
-    ;
-      return l;
+   
+    return l;
   }
 
 

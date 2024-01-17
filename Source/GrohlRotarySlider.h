@@ -22,7 +22,8 @@ public:
     setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     setRange(rangeStart, rangeEnd, rangeStep);
     setValue(0.0f);
-    setTextBoxStyle(juce::Slider::TextBoxBelow, true, 48, 24);
+    setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 24);
+    setDoubleClickReturnValue(true, 0.0);
     
     setColour(juce::Slider::rotarySliderFillColourId, juce::Colour(239, 146, 35));
     setColour(juce::Slider::thumbColourId, juce::Colour(239, 146, 35));

@@ -11,7 +11,7 @@
 
 #include <JuceHeader.h>
 
-const juce::Colour PLUGIN_BACKGROUND_COLOR{73, 117, 115};
+const juce::Colour PLUGIN_BACKGROUND_COLOR{59, 96, 94};
 const juce::Colour TEXT_COLOR{239, 146, 35};
 
 #endif /* Constants_h */
