@@ -20,8 +20,8 @@ public:
                     const float rangeStep = 1.0f, const double value = 0) {
     
     setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    setRange(rangeStart, rangeEnd, rangeStep);
-    setValue(value);
+//    setRange(rangeStart, rangeEnd, rangeStep);
+//    setValue(value);
     setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 24);
     setDoubleClickReturnValue(true, 0.0);
     

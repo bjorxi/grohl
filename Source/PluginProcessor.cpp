@@ -19,7 +19,16 @@ GrohlAudioProcessor::GrohlAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+  apvts(*this, nullptr, "Parameters", {
+    std::make_unique<juce::AudioParameterFloat>("inputGain", "Input Gain", -12.0f, 12.0f, 0.0f),
+    std::make_unique<juce::AudioParameterFloat>("attack", "Attack", 0.0f, 100.0f, 10.0f),
+    std::make_unique<juce::AudioParameterFloat>("ratio", "Ratio", 1.0f, 8.0f, 4.0f),
+    std::make_unique<juce::AudioParameterFloat>("treshold", "Treshold", -24.0f, 0.0f, 0.0f),
+    std::make_unique<juce::AudioParameterFloat>("release", "Release", 0.0f, 100.0f, 10.0f),
+    std::make_unique<juce::AudioParameterFloat>("makeUpGain", "Output Gain", -12.0f, 12.0f, 0.0f),
+  }
+  )
 #endif
 {
 }

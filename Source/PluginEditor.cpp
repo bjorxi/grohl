@@ -54,6 +54,13 @@ GrohlAudioProcessorEditor::GrohlAudioProcessorEditor (GrohlAudioProcessor& p)
   makeUpGainLabel.attachToComponent(&makeUpGain, false);
   makeUpGainLabel.setJustificationType(juce::Justification::centred);
   makeUpGainLabel.setColour(juce::Label::textColourId, TEXT_COLOR);
+  
+  inputGainLabelAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "inputGain", inputGain);
+  attackLabelAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "attack", attack);
+  ratioLabelAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "ratio", ratio);
+  tresholdLabelAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "treshold", treshold);
+  releaseLabelAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "release", release);
+  makeUpGainLabelAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "makeUpGain", makeUpGain);
 }
 
 GrohlAudioProcessorEditor::~GrohlAudioProcessorEditor()

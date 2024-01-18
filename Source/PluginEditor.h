@@ -50,5 +50,14 @@ private:
   juce::Label releaseLabel;
   juce::Label makeUpGainLabel;
   
+  std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> inputGainLabelAttachment;
+  std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> attackLabelAttachment;
+  std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> ratioLabelAttachment;
+  std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> tresholdLabelAttachment;
+  std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> releaseLabelAttachment;
+  std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> makeUpGainLabelAttachment;
+  
+  
+  
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GrohlAudioProcessorEditor)
 };
