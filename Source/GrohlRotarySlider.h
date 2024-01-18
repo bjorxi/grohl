@@ -17,11 +17,11 @@ class GrohlRotarySlider : public juce::Slider {
   
 public:
   GrohlRotarySlider(const juce::String& suffix = "", const float rangeStart = 0.0f, const float rangeEnd = 10.0f,
-                    const float rangeStep = 1.0f) {
+                    const float rangeStep = 1.0f, const double value = 0) {
     
     setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     setRange(rangeStart, rangeEnd, rangeStep);
-    setValue(0.0f);
+    setValue(value);
     setTextBoxStyle(juce::Slider::TextBoxBelow, true, 60, 24);
     setDoubleClickReturnValue(true, 0.0);
     
