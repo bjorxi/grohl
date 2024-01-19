@@ -24,7 +24,7 @@ GrohlAudioProcessorEditor::GrohlAudioProcessorEditor (GrohlAudioProcessor& p)
   addAndMakeVisible(treshold);
   addAndMakeVisible(release);
   addAndMakeVisible(makeUpGain);
-  
+    
   inputGainLabel.setText("Input Gain", juce::dontSendNotification);
   inputGainLabel.attachToComponent(&inputGain, false);
   inputGainLabel.setJustificationType(juce::Justification::centred);
