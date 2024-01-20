@@ -64,6 +64,8 @@ public:
   
 private:
   
+  juce::FileLogger logger{juce::File{"/tmp/grohl.log"}, "Hello"};
+  
   //==============================================================================
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GrohlAudioProcessor)
 };

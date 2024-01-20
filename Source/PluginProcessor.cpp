@@ -21,18 +21,34 @@ GrohlAudioProcessor::GrohlAudioProcessor()
                      #endif
                        ),
   apvts(*this, nullptr, "Parameters", {
-    std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{"inputGain", 1}, "InputGain" , juce::NormalisableRange<float>(-12.0f, 12.0f, 0.1f), 0.0f),
+    std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{"inputGain", 1}, "InputGain" , juce::NormalisableRange<float>(-24.0f, 6.0f, 0.1f), 0.0f),
     std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{"attack", 1}, "Attack", juce::NormalisableRange<float>(0.0f, 100.0f, 1.0f), 10.0f),
     std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{"ratio", 1}, "Ratio", juce::NormalisableRange<float>(1.0f, 8.0f, 1.0f), 4.0f),
     std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{"treshold", 1}, "Treshold", juce::NormalisableRange<float>(-24.0f, 0.0f, 0.1f), 0.0f),
     std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{"release", 1}, "Release", juce::NormalisableRange<float>(0.0f, 100.0f, 1.0f), 10.0f),
-    std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{"makeUpGain", 1}, "MakeUpGain", juce::NormalisableRange<float>(-12.0f, 12.0f, 0.1f), 0.0f),
+    std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{"makeUpGain", 1}, "MakeUpGain", juce::NormalisableRange<float>(-24.0f, 6.0f, 0.1f), 0.0f),
   }
   )
 #endif
 {
+  // Set initial values for all parameters
   inputGain = dynamic_cast<juce::AudioParameterFloat*>(apvts.getParameter("inputGain"));
   jassert(inputGain != nullptr);
+  
+  makeUpGain = dynamic_cast<juce::AudioParameterFloat*>(apvts.getParameter("makeUpGain"));
+  jassert(makeUpGain != nullptr);
+  
+  ratio = dynamic_cast<juce::AudioParameterFloat*>(apvts.getParameter("ratio"));
+  jassert(ratio != nullptr);
+  
+  treshold = dynamic_cast<juce::AudioParameterFloat*>(apvts.getParameter("treshold"));
+  jassert(treshold != nullptr);
+  
+  release = dynamic_cast<juce::AudioParameterFloat*>(apvts.getParameter("release"));
+  jassert(release != nullptr);
+  
+  makeUpGain = dynamic_cast<juce::AudioParameterFloat*>(apvts.getParameter("makeUpGain"));
+  jassert(makeUpGain != nullptr);
 }
 
 GrohlAudioProcessor::~GrohlAudioProcessor()
@@ -146,9 +162,10 @@ void GrohlAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
   auto totalNumInputChannels  = getTotalNumInputChannels();
   auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-  auto _inputGain = inputGain->get();
-  auto _outputGain = inputGain->get();
-
+  auto _inputGain = juce::Decibels::decibelsToGain(inputGain->get());
+  auto _makeUpGain = juce::Decibels::decibelsToGain(makeUpGain->get());
+  logger.logMessage("GrohlAudioProcessor::processBlock::inputGain - "+std::to_string(_inputGain));
+  logger.logMessage("GrohlAudioProcessor::processBlock::makeUpGain - "+std::to_string(_makeUpGain));
   // In case we have more outputs than inputs, this code clears any output
   // channels that didn't contain input data, (because these aren't
   // guaranteed to be empty - they may contain garbage).
@@ -164,19 +181,20 @@ void GrohlAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
   // the samples and the outer loop is handling the channels.
   // Alternatively, you can process the samples with the channels
   // interleaved by keeping the same state.
-  for (int channel = 0; channel < totalNumInputChannels; ++channel)
-  {
-      auto* channelData = buffer.getWritePointer (channel);
-
-    for (int sampleIdx= 0; sampleIdx< buffer.getNumSamples(); ++sampleIdx) {
-      auto sample = buffer.getSample(channel, sampleIdx);
-//        auto sampleDb = juce::Decibels::gainToDecibels(sample) + inputGain->get();
-      if (_inputGain != 0)
-        channelData[sampleIdx] = sample * _inputGain;
-
-      if (_outputGain != 0)
-        channelData[sampleIdx] = sample * _outputGain;
-    }
+  if (_inputGain != 0) {
+    buffer.applyGain(_inputGain);
+  }
+  
+//  for (int channel = 0; channel < totalNumInputChannels; ++channel) {
+//    auto* channelData = buffer.getWritePointer (channel);
+//
+//    for (int sampleIdx= 0; sampleIdx< buffer.getNumSamples(); ++sampleIdx) {
+//      auto sample = buffer.getSample(channel, sampleIdx);
+//      channelData[sampleIdx] = sample + _inputGain;
+//    }
+//  }
+  if (_makeUpGain != 0) {
+    buffer.applyGain(_makeUpGain);
   }
 }
 
